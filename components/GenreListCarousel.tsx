@@ -1,4 +1,4 @@
-import { Playlist } from "@/types";
+import {  TopSong } from "@/types";
 import {
   Carousel,
   CarouselContent,
@@ -7,20 +7,34 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import PlayListCard from "./PlayListCard";
-
-interface PlayListCarouselProps {
+import { chunkArray } from "@/lib/utils";
+import GenreCard from "./GenreCard";
+interface GenreListCarouselProps {
   title: string;
   subtitle?: string;
   Thumbnail?: React.ReactNode;
-  playlistArray?: Playlist[];
+  genreList: string[];
 }
 
-export default function PlayListCarousel({
+const GenreColumn = ({genreList = []}:{genreList:string[]}) => {
+  return (
+    <div className="flex flex-col gap-4">
+      {genreList.map((genre) => (
+        <GenreCard key={genre} genre={genre}/>
+      ))}
+    </div>
+  )
+}
+
+export default function GenreListCarousel({
   title,
   subtitle,
   Thumbnail,
-  playlistArray,
-}: PlayListCarouselProps) {
+  genreList,
+  }: GenreListCarouselProps) {
+
+const genreListChunks = chunkArray(genreList, 4);
+
   return (
     <div className="w-full">
       <Carousel>
@@ -45,9 +59,9 @@ export default function PlayListCarousel({
         </div>
         <CarouselContent className="mt-4">
             {
-                playlistArray?.map((playlist, index) => (   
-                    <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                        <PlayListCard playlist={playlist}/>
+                genreListChunks?.map((genreList, index) => (   
+                    <CarouselItem key={index} className="basis-1/3 lg:basis-1/4">
+                      <GenreColumn genreList={genreList}/>
                     </CarouselItem>
                 ))
             }

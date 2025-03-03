@@ -17,3 +17,18 @@ export const getRandomInt = (min: number, max: number) => {
 export function getRandomArrayElement<T>(array: T[]): T {
   return array[getRandomInt(0, array.length - 1)];
 }
+
+export function chunkArray<T>(array: T[], size: number): T[][] {
+  return array.reduce((acc, item, index) => {
+    const chunkIndex = Math.floor(index / size);
+    if (!acc[chunkIndex]) {
+      acc[chunkIndex] = [];
+    }
+    acc[chunkIndex].push(item);
+    return acc;
+  }, [] as T[][]);
+}
+
+export function generateRandomHexColor() {
+  return '#' + Math.floor(Math.random()*0xFFFFFF << 0).toString(16).padStart(6, '0');
+}
