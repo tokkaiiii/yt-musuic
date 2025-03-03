@@ -1,4 +1,9 @@
-export default function IconButton({icon, onClickIcon = () => {}} : {icon : React.ReactNode, onClickIcon : () => void}) {
+type IconButtonProps = {
+    icon : React.ReactNode,
+    onClickIcon? : () => void
+}
+
+export default function IconButton({icon, onClickIcon = () => {}} : IconButtonProps) {
     return (
         <div 
         onClick={onClickIcon}
