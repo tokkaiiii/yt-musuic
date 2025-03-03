@@ -37,7 +37,7 @@ export default function PlayListCard({playlist}: PlayListCardProps)  {
                     src={imageSrc} 
                     fill 
                     alt="playlist thumbnail" 
-                    className="object-cover"
+                    className="object-cover rounded-md"
                 />
                 <div className="relative hidden group-hover:block bg-gradient-to-b from-[rgba(0,0,0,0.7)] top-0 w-full h-[136px]">
                     <div className="absolute top-2 right-4">
