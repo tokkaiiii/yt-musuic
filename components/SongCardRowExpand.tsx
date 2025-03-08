@@ -4,16 +4,23 @@ import Image from "next/image";
 import { FiMoreVertical, FiPlayCircle, FiThumbsDown, FiThumbsUp } from "react-icons/fi";
 import IconButton from "./elements/IconButton";
 import { useRouter } from "next/navigation";
+import usePlayerState from "@/hooks/usePlayerState";
 interface SongCardRowExpandProps {
   song: Song;
 }
 
 export default function SongCardRowExpand({ song }: SongCardRowExpandProps) {
+  const { addSongList } = usePlayerState();
   const router = useRouter();
   const { channel, channelId } = song;
 
   const onClickChannel = () => {
     router.push(`/channel/${channelId}`);
+  }
+
+  const onClickPlay = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    addSongList([song]);
   }
 
   return (
@@ -22,7 +29,7 @@ export default function SongCardRowExpand({ song }: SongCardRowExpandProps) {
       <div className="w-[48px] h-[48px] relative">
         <Image src={song.imageSrc} alt="img" fill className="object-cover" />
         <section className="hidden group-hover:flex w-[48px] h-[48px] items-center justify-center absolute top-0
-        bg-black cursor-pointer">
+        bg-black cursor-pointer" onClick={onClickPlay}>
           <FiPlayCircle size={20}/>
         </section>
       </div>

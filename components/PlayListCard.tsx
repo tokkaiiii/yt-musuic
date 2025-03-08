@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import { MdMoreVert } from "react-icons/md";
 import { FiPlay } from "react-icons/fi";
 import IconButton from "./elements/IconButton";
+import usePlayerState from "@/hooks/usePlayerState";
 interface PlayListCardProps {
     playlist: Playlist;
 }
 
 export default function PlayListCard({playlist}: PlayListCardProps)  {
+    const { addSongList } = usePlayerState();
     const router = useRouter();
     const {
         id,
@@ -26,8 +28,9 @@ export default function PlayListCard({playlist}: PlayListCardProps)  {
         router.push(`/playlist?list=${id}`);
     }
 
-    const onClickPlayButton = () => {
-        console.log("clicked");
+    const onClickPlayButton = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        addSongList(songList);
     }
 
     return (

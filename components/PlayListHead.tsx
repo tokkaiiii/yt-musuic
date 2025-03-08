@@ -8,13 +8,19 @@ import Image from "next/image";
 import { getRandomArrayElement } from "@/lib/utils";
 import WhiteButton from "./elements/WhiteButton";
 import DarkButton from "./elements/DarkButton";
+import usePlayerState from "@/hooks/usePlayerState";
 interface PlayListHeadProps {
     playlist: Playlist
 }
 
 export default function PlayListHead({playlist}: PlayListHeadProps) {
+    const { addSongList } = usePlayerState();
     const { playlistName, owner, songList } = playlist;
     const randomSong = getRandomArrayElement(songList);
+    const onClickPlay = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        addSongList(songList);
+    }
     return (
         <section className="">
             <div className="flex gap-[50px] flex-row">
@@ -24,14 +30,15 @@ export default function PlayListHead({playlist}: PlayListHeadProps) {
             <article className="flex flex-col justify-center">
                 <div className="text-[28px] font-bold">{playlistName}</div>
                 <div className="text-neutral-400 mt-4 text-[14px]">
-                    <div>{`앨범 · ${owner} · 2019`}</div>
-                    <div>{`${songList.length}곡 · 15분`}</div>
+                    <div>{`앨범 • ${owner} • 2019`}</div>
+                    <div>{`${songList.length}곡 • 15분`}</div>
                 </div>
                 <ul className="hidden lg:flex flex-row gap-4 mt-4">
                     <WhiteButton 
                     className="w-[85px] text-[14px]" 
-                    icon={<FiPlay/>} 
+                    icon={<FiPlay />} 
                     label="재생" 
+                    onClick={onClickPlay}
                     />
                     <DarkButton 
                     className="w-[135px] text-[14px]" 
@@ -47,6 +54,7 @@ export default function PlayListHead({playlist}: PlayListHeadProps) {
                     className="w-[85px] text-[14px]" 
                     icon={<FiPlay/>} 
                     label="재생" 
+                    onClick={onClickPlay}
                     />
                     <DarkButton 
                     className="w-[135px] text-[14px]" 
